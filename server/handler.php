@@ -1,13 +1,15 @@
 <?php
 session_start();
 require 'db.php';
-
-gen_tables();
-
+try{
+	gen_tables();
+}catch(Exception $e){
+	echo 'Error, ', $e->getMessage();
+}
 if(isset($_POST['type']) && $_POST['type'] === 'initial_search'){
 	$result = initial_search($_POST['city_name']);
 	echo $result;
-} 
+}
 if(isset($_POST['type']) && $_POST['type'] === 'add_company'){
 	add_company($_POST['co_name'],$_POST['co_size'],$_POST['co_profit']);
 }

@@ -12,7 +12,7 @@ function city_search() {
       city_form.className = "";
 	  city_form.id = "city_form";
       city_form.method = "POST";
-      
+
 	  //input for city search
       var city_name = document.createElement('input');
       city_name.className = "form-control";
@@ -20,22 +20,22 @@ function city_search() {
       city_name.name = "city_name";
       city_name.value = "";
       city_name.placeholder = "San Jose";
-      
+
 	  //button for submit
       var submit = document.createElement('input');
       submit.type = "submit";
 	  submit.className = "btn btn-default";
-      
+
 	  //appends each input to form
       var to_append = [city_name];
       to_append.forEach(function(element) {
          city_form.appendChild(element);
       });
-      
-	
+
+
       var city_name_text = document.createTextNode("Enter a City ");
       city_form.insertBefore(city_name_text, city_name);
-	  city.appendChild(city_form);  
+	  city.appendChild(city_form);
 
 	$('#city_form').submit(function(event) {
 		event.preventDefault();
@@ -57,4 +57,12 @@ function city_search() {
 		});
 	});
 }
+//think about this section
+// function radio_buttons(){
+// 	var div_radio = document.getElementById('checkbox');
+// 	var label_one = document.createElement('label');
+// 			label_one.className="checkbox-inline";
+// 	var label_one_text = document.createTextNode('Job Title');
 
+
+}

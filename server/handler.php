@@ -2,12 +2,12 @@
 session_start();
 require 'db.php';
 try{
-	gen_tables();
+	gen_db();
 }catch(Exception $e){
 	echo 'Error, ', $e->getMessage();
 }
 if(isset($_POST['type']) && $_POST['type'] === 'initial_search'){
-	$result = initial_search($_POST['city_name']);
+	$result = generate_company_profiles($_POST['city_name']);
 	echo $result;
 }
 if(isset($_POST['type']) && $_POST['type'] === 'add_company'){

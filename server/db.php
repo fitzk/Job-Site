@@ -1,18 +1,18 @@
 <?php
 //SELECT AVG(employee_salary) FROM `employee` INNER JOIN company ON employee.company_id = company.company_id WHERE employee_title = 'Sample Engineer' AND company.company_name = 'Blue Coat';
-// function connectToServer(){
-//     $dbhost = 'oniddb.cws.oregonstate.edu';
-//     $dbname = 'fitzsimk-db';
-//     $dbuser = 'fitzsimk-db';
-//     $dbpass = 'VTUimCiHBfyC8P5P';
-//     $mysqli = new mysqli($dbhost, $dbname, $dbpass, $dbuser);
-//     if (mysqli_connect_errno())
-//       {
-//         echo "Failed to connect to MySQL: (" . $mysqli->connect_errno . ") " . $mysqli->connect_error;
-//       }
-//     return $mysqli;
-//  }
-function connectToServer(){
+ function connectToServer(){
+     $dbhost = 'oniddb.cws.oregonstate.edu';
+     $dbname = 'fitzsimk-db';
+     $dbuser = 'fitzsimk-db';
+     $dbpass = 'VTUimCiHBfyC8P5P';
+     $mysqli = new mysqli($dbhost, $dbname, $dbpass, $dbuser);
+     if (mysqli_connect_errno())
+       {
+         echo "Failed to connect to MySQL: (" . $mysqli->connect_errno . ") " . $mysqli->connect_error;
+       }
+    return $mysqli;
+  }
+/* function connectToServer(){
     $dbhost = 'localhost';
     $dbname = 'jobsite';
     $dbuser = 'root';
@@ -20,7 +20,7 @@ function connectToServer(){
     $mysqli = new mysqli($dbhost, $dbuser,$dbpass,$dbname);
     if (mysqli_connect_errno()){ echo "Failed to connect to MySQL: (" . $mysqli->connect_errno . ") " . $mysqli->connect_error;}
     return $mysqli;
- }
+ } */
 function add_sector($sector_name, $sector_description){
     $mysqli = connectToServer();
     if (!($stmt = $mysqli->prepare("INSERT INTO sector(sector_name,sector_description) VALUES (?,?)")))
@@ -155,19 +155,19 @@ function search_job_location($employee, $location){
 function gen_db(){
   $mysqli = connectToServer();
   //$db = "CREATE DATABASE IF NOT EXISTS 'jobsite'";
-  $company = "CREATE TABLE IF NOT EXISTS jobsite.company(
+  $company = "CREATE TABLE IF NOT EXISTS company(
  	company_id INT(6) AUTO_INCREMENT PRIMARY KEY NOT NULL,
  	company_name VARCHAR(255) NOT NULL UNIQUE,
  	company_size VARCHAR(255),
  	company_profit VARCHAR(255),
   company_stock_symbol VARCHAR(15))";
 
- 	$sector = "CREATE TABLE IF NOT EXISTS jobsite.sector(
+ 	$sector = "CREATE TABLE IF NOT EXISTS sector(
  	sector_id INT(6)AUTO_INCREMENT PRIMARY KEY NOT NULL,
  	sector_name VARCHAR(255) NOT NULL UNIQUE,
  	sector_description VARCHAR(255))";
 
-  $employee = "CREATE TABLE IF NOT EXISTS jobsite.employee(
+  $employee = "CREATE TABLE IF NOT EXISTS employee(
   employee_id INT(6)AUTO_INCREMENT PRIMARY KEY NOT NULL,
   employee_title VARCHAR(255) NOT NULL,
   employee_salary INT(15),
@@ -175,11 +175,11 @@ function gen_db(){
   CONSTRAINT FOREIGN KEY(company_id)
   REFERENCES company(company_id) ON DELETE SET NULL ON UPDATE CASCADE)";
 
-  $city = "CREATE TABLE IF NOT EXISTS jobsite.city(
+  $city = "CREATE TABLE IF NOT EXISTS city(
  	city_id INT(6) AUTO_INCREMENT PRIMARY KEY NOT NULL,
  	city_name VARCHAR(255) NOT NULL UNIQUE)";
 
- 	$co_city = "CREATE TABLE IF NOT EXISTS jobsite.company_city(
+ 	$co_city = "CREATE TABLE IF NOT EXISTS company_city(
  	city_id INT(6),
   company_id INT(6),
  	CONSTRAINT FOREIGN KEY(city_id)
@@ -187,7 +187,7 @@ function gen_db(){
  	CONSTRAINT FOREIGN KEY(company_id)
  	REFERENCES company(company_id) ON DELETE SET NULL ON UPDATE CASCADE)";
 
-  $company_sector = "CREATE TABLE IF NOT EXISTS jobsite.company_sector(
+  $company_sector = "CREATE TABLE IF NOT EXISTS company_sector(
   company_id INT(6),
   sector_id INT(6),
   CONSTRAINT FOREIGN KEY(company_id)
@@ -195,7 +195,7 @@ function gen_db(){
   CONSTRAINT FOREIGN KEY(sector_id)
   REFERENCES sector(sector_id) ON DELETE SET NULL ON UPDATE CASCADE)";
 
-  $city_sector = "CREATE TABLE IF NOT EXISTS jobsite.city_sector(
+  $city_sector = "CREATE TABLE IF NOT EXISTS city_sector(
   city_id INT(6),
   sector_id INT(6),
   CONSTRAINT FOREIGN KEY(city_id)
@@ -205,7 +205,7 @@ function gen_db(){
 
 // if(!$mysqli->query($db)){ throw new Exception('jobsite db not created'); }
   if(!$mysqli->query($company)){ throw new Exception('company table not created'); }
- 	if(!$mysqli->query($sector)){  throw new Exception('sector table not created');  }
+  if(!$mysqli->query($sector)){  throw new Exception('sector table not created');  }
   if(!$mysqli->query($city)){  throw new Exception('city table not created');  }
   if(!$mysqli->query($co_city)){ throw new Exception('co_city table not created'); }
   if(!$mysqli->query($company_sector)){ throw new Exception('company_sector table not created ');  }

@@ -83,6 +83,6 @@ INSERT INTO employee(employee_title,employee_salary,company_id) VALUES ('Sample 
 /*Sample Employee*/
 INSERT INTO employee(employee_title,employee_salary,company_id) VALUES ('Sample Engineer','80000',(SELECT company_id from company where company_name = 'Cisco Systems'));
 /*Sample Employee*/
-INSERT INTO employee(employee_title,employee_salary,company_id) VALUES ('Sample Engineer','12000',(SELECT company_id from company where company_name = 'Blue Coat'));
+INSERT INTO employee(employee_title,employee_salary,company_id) VALUES ('Sample Engineer','12000',(SELECT company_id from company where company_name = 'Elastic'));
 /*Sample Employee*/
-INSERT INTO employee(employee_title,employee_salary,company_id) VALUES ('Sample Engineer','11500',(SELECT company_id from company where company_name = 'Blue Coat'));
+INSERT INTO employee(employee_title,employee_salary,company_id) VALUES ('Sample Engineer','11500',(SELECT company_id from company where company_name = 'Intuit'));

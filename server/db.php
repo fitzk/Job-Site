@@ -1,5 +1,5 @@
 <?php
-
+//SELECT AVG(employee_salary) FROM `employee` INNER JOIN company ON employee.company_id = company.company_id WHERE employee_title = 'Sample Engineer' AND company.company_name = 'Blue Coat';
 // function connectToServer(){
 //     $dbhost = 'oniddb.cws.oregonstate.edu';
 //     $dbname = 'fitzsimk-db';
@@ -54,7 +54,7 @@ function add_employee($employee_title, $employee_salary){
     $mysqli->close();
  }
 
-function generate_company_profiles($city_name){
+function all_companies_by_location($city_name){
   $mysqli = connectToServer();
   if (!($stmt = $mysqli->prepare("SELECT company.company_name, company.company_size, company.company_profit,
     company.company_stock_symbol FROM company INNER JOIN company_city ON company.company_id = company_city.company_id
@@ -86,6 +86,72 @@ function generate_company_profiles($city_name){
     $mysqli->close();
 }
 
+function search_company_location($company, $location){
+  $mysqli = connectToServer();
+  if (!($stmt = $mysqli->prepare("SELECT company.company_name, company.company_size, company.company_profit,
+    company.company_stock_symbol FROM company INNER JOIN company_city ON company.company_id = company_city.company_id
+    INNER JOIN city ON company_city.city_id = city.city_id WHERE  company.company_name = ? AND city.city_name = ?;")))
+    {
+      echo "Prepare failed: (" . $mysqli->errno . ") " . $mysqli->error;
+    }
+  if (!$stmt->bind_param("ss",$company,$location)){
+      echo "Binding parameters failed: (" . $stmt->errno . ") " . $stmt->error;
+    }
+  if (!$stmt->execute())
+    {
+      echo "Execute failed: (" . $stmt->errno . ") " . $stmt->error;
+    }else{
+      $result = $stmt->get_result();
+      if ($result->num_rows > 0)
+        {
+          $companies = array();
+          while ($row = $result->fetch_array(MYSQL_ASSOC))
+            {
+                  $companies[] = $row;
+            }
+          $result->close();
+          return json_encode($companies);
+        }else{
+          return "0 results";
+        }
+    }
+    $mysqli->close();
+}
+function search_job_location($employee, $location){
+  $mysqli = connectToServer();
+  if (!($stmt = $mysqli->prepare("SELECT employee.employee_title, company.company_name, employee.employee_salary FROM employee
+    INNER JOIN company ON employee.company_id = company.company_id
+    INNER JOIN company_city ON company.company_id = company_city.company_id
+    INNER JOIN city ON company_city.city_id = city.city_id
+    WHERE  employee.employee_title = ? AND city.city_name = ?
+    ORDER BY company.company_name;")))
+    {
+      echo "Prepare failed: (" . $mysqli->errno . ") " . $mysqli->error;
+    }
+  if (!$stmt->bind_param("ss",$employee,$location)){
+      echo "Binding parameters failed: (" . $stmt->errno . ") " . $stmt->error;
+    }
+  if (!$stmt->execute())
+    {
+      echo "Execute failed: (" . $stmt->errno . ") " . $stmt->error;
+    }else{
+      $result = $stmt->get_result();
+      if ($result->num_rows > 0)
+        {
+          $companies = array();
+          while ($row = $result->fetch_array(MYSQL_ASSOC))
+            {
+                  $companies[] = $row;
+            }
+            //store in object
+          $result->close();
+          return json_encode($companies);
+        }else{
+          return "0 results";
+        }
+    }
+    $mysqli->close();
+}
 function gen_db(){
   $mysqli = connectToServer();
   //$db = "CREATE DATABASE IF NOT EXISTS 'jobsite'";

@@ -99,7 +99,7 @@ INSERT IGNORE INTO company(company_name,company_size,company_profit,company_stoc
 INSERT IGNORE INTO company(company_name,company_size,company_profit,company_stock_symbol) VALUES ('Groupon','5000+','$3.2+ billion','GRPN');
 /*company city  */ INSERT IGNORE INTO company_city(company_id,city_id) VALUES((SELECT company_id from company where company_name = 'Groupon'),(SELECT city_id from city WHERE city_name = 'Palo Alto'));
 /*company sector*/ INSERT IGNORE INTO company_sector(company_id,sector_id) VALUES((SELECT company_id from company where company_name = 'Groupon'),(SELECT sector_id from sector WHERE sector_name = 'Other'));
-/*city sector   */ INSERT IGNORE INTO city_sector(city_id,sector_id) VALUES((SELECT city_id from city WHERE city_name = 'Palo Alot'),(SELECT sector_id from sector WHERE sector_name = 'Software'));
+/*city sector   */ INSERT IGNORE INTO city_sector(city_id,sector_id) VALUES((SELECT city_id from city WHERE city_name = 'Palo Alto'),(SELECT sector_id from sector WHERE sector_name = 'Software'));
 /* Twilio*/
 INSERT IGNORE INTO company(company_name,company_size,company_profit,company_stock_symbol) VALUES ('Twilio','n/a','n/a','Private');
 /*company city  */ INSERT IGNORE INTO company_city(company_id,city_id) VALUES((SELECT company_id from company where company_name = 'Twilio'),(SELECT city_id from city WHERE city_name = 'Mountain View'));
@@ -122,7 +122,7 @@ INSERT IGNORE INTO company(company_name,company_size,company_profit,company_stoc
 /*company city  */ INSERT IGNORE INTO company_city(company_id,city_id) VALUES((SELECT company_id from company where company_name = 'Intuit'),(SELECT city_id from city WHERE city_name = 'Mountain View'));
 /*company city  */ INSERT IGNORE INTO company_city(company_id,city_id) VALUES((SELECT company_id from company where company_name = 'Intuit'),(SELECT city_id from city WHERE city_name = 'San Jose'));
 /*company sector*/ INSERT IGNORE INTO company_sector(company_id,sector_id) VALUES((SELECT company_id from company where company_name = 'Intuit'),(SELECT sector_id from sector WHERE sector_name = 'Software'));
-/*city sector   */ INSERT IGNORE INTO city_sector(city_id,sector_id) VALUES((SELECT city_id from city WHERE city_name = 'Mountian View'),(SELECT sector_id from sector WHERE sector_name = 'Software'));
+/*city sector   */ INSERT IGNORE INTO city_sector(city_id,sector_id) VALUES((SELECT city_id from city WHERE city_name = 'Mountain View'),(SELECT sector_id from sector WHERE sector_name = 'Software'));
 /*city sector   */ INSERT IGNORE INTO city_sector(city_id,sector_id) VALUES((SELECT city_id from city WHERE city_name = 'San Jose'),(SELECT sector_id from sector WHERE sector_name = 'Software'));
 /*Intel*/
 INSERT IGNORE INTO company(company_name,company_size,company_profit,company_stock_symbol) VALUES ('Intel','5000+','$55+ billion','INTC');
@@ -200,12 +200,4 @@ INSERT IGNORE INTO company_sector(company_id,sector_id) VALUES((SELECT company_i
 INSERT IGNORE INTO company_sector(company_id,sector_id) VALUES((SELECT company_id from company where company_name = 'Symantec'),(SELECT sector_id from sector WHERE sector_name = 'Software'));
 INSERT IGNORE INTO city_sector(city_id,sector_id) VALUES((SELECT city_id from city where city_name = 'Mountain View'),(SELECT sector_id from sector WHERE sector_name = 'Other'));
 INSERT IGNORE INTO city_sector(city_id,sector_id) VALUES((SELECT city_id from city where city_name = 'Mountain View'),(SELECT sector_id from sector WHERE sector_name = 'Software'));
-INSERT IGNORE INTO city(city_name) VALUES (new);
-INSERT IGNORE INTO city(city_name) VALUES (new);
-INSERT IGNORE INTO city(city_name) VALUES (san jose);
-INSERT IGNORE INTO city(city_name) VALUES (new);
-INSERT IGNORE INTO city(city_name) VALUES (new);
-INSERT IGNORE INTO city(city_name) VALUES (new);
-INSERT IGNORE INTO city(city_name) VALUES (new);
-INSERT IGNORE INTO city(city_name) VALUES (san jose);
-INSERT IGNORE INTO city(city_name) VALUES (new place);
+/*added after submit*/

@@ -7,9 +7,19 @@ var controller = {
    * GET JOB
    */
   executeJob: function(context) {
+    $('#profile_display').empty();
+    $('#comment').empty();
     var form_data = $(context).serializeArray();
     var n = form_data[0].value;
     var l = form_data[1].value;
+    form_data.forEach(function(input) {
+      if (input.value === "") {
+        var error = document.createElement('div');
+        error.appendChild(document.createTextNode("Please fill out all input fields."));
+        $("#comment").append(error);
+	  return;  
+		}
+    });
 
     var to_db = {
       type: "job_city",
@@ -24,14 +34,12 @@ var controller = {
       data: to_db
     }).done(function(data) {
       var parsed_data = JSON.parse(data);
-      $('#profile_display').empty();
       var comment = document.createElement('div');
       if (parsed_data["response"]["code"] == "400") {
-        $('#comment').empty();
         comment.appendChild(document.createTextNode(parsed_data["response"]["comment"]));
         $('#comment').append(comment);
       } else if (parsed_data["response"]["code"] == "200") {
-        comment.innerHTML='';
+        comment.innerHTML = '';
         comment.appendChild(document.createTextNode(parsed_data["response"]["comment"]));
         $('#comment').append(comment);
         var job_data = parsed_data["job_data"];
@@ -44,12 +52,22 @@ var controller = {
   },
 
   /*
-  * GET COMPANY
-  */
+   * GET COMPANY
+   */
   executeCompany: function(context) {
+    $('#profile_display').empty();
+    $('#comment').empty();
     var form_data = $(context).serializeArray();
     var n = form_data[0].value;
     var l = form_data[1].value;
+    form_data.forEach(function(input) {
+      if (input.value === "") {
+        var error = document.createElement('div');
+        error.appendChild(document.createTextNode("Please fill out all input fields."));
+        $("#comment").append(error);
+		return;
+      }
+    });
 
     var to_db = {
       type: "company_city",
@@ -65,11 +83,11 @@ var controller = {
     }).done(function(data) {
       var parsed_data = JSON.parse(data);
       var comment = document.createElement('div');
-      $('#profile_display').empty();
+
       if (parsed_data["response"]["code"] == "400") {
         comment.appendChild(document.createTextNode(parsed_data["response"]["comment"]));
         $('#comment').append(comment);
-      } else if(parsed_data["response"]["code"] == "200") {
+      } else if (parsed_data["response"]["code"] == "200") {
         comment.appendChild(document.createTextNode(parsed_data["response"]["comment"]));
         $('#comment').append(comment);
         var job_data = parsed_data["job_data"];
@@ -82,12 +100,21 @@ var controller = {
   },
 
   /*
-  * GET SECTOR
-  */
+   * GET SECTOR
+   */
   executeSector: function(context) {
+    $('#profile_display').empty();
+    $('#comment').empty();
     var form_data = $(context).serializeArray();
     var l = form_data[0].value;
-
+    form_data.forEach(function(input) {
+      if (input.value === "") {
+        var error = document.createElement('div');
+        error.appendChild(document.createTextNode("Please fill out all input fields."));
+        $("#comment").append(error);
+		return;
+      }
+    });
     var to_db = {
       type: "sector_city",
       //name: n,
@@ -102,26 +129,26 @@ var controller = {
     }).done(function(data) {
       var parsed_data = JSON.parse(data);
       var comment = document.createElement('div');
-      $('#profile_display').empty();
+
       if (parsed_data["response"]["code"] == "400") {
         comment.appendChild(document.createTextNode(parsed_data["response"]["comment"]));
 
-        $('#comment').empty().append(comment);
-      } else if(parsed_data["response"]["code"] == "200") {
+        $('#comment').append(comment);
+      } else if (parsed_data["response"]["code"] == "200") {
         comment.appendChild(document.createTextNode(parsed_data["response"]["comment"]));
         $('#comment').append(comment);
         //var company_data = parsed_data["data"];
         generate_table(parsed_data, "Sector");
         //if (typeof(job_data[0]) != 'undefined') {
-          //generate_table(job_data[0], "Compan");
+        //generate_table(job_data[0], "Compan");
         //}
       }
     });
   },
 
   /*
-  * GET CITY
-  */
+   * GET CITY
+   */
   executeCity: function(context) {
     throw "Not implemented yet."
   },
@@ -130,12 +157,25 @@ var controller = {
    * ADD JOB
    */
   executeAddJob: function(context) {
+    $('#profile_display').empty();
+    $('#comment2').empty();
     var form_data = $(context).serializeArray();
     var n = form_data[0].value;
     var s = form_data[1].value;
     var c = form_data[2].value;
     var l = form_data[3].value;
-
+	var empty_form = false;
+    form_data.forEach(function(input) {
+      if (input.value === "") {
+        var error = document.createElement('div');
+        error.appendChild(document.createTextNode("Please fill out all input fields."));
+        $("#comment2").append(error);
+		empty_form = true;
+      }
+    });
+	if(empty_form){
+		return;
+	}
     var to_db = {
       type: "add_job",
       name: n,
@@ -166,7 +206,11 @@ var controller = {
    * ADD COMPANY
    */
   executeAddCompany: function(context) {
+    $('#profile_display').empty();
+    $('#comment2').empty();
     var form_data = $(context).serializeArray();
+    
+	var empty_form = false;
     var n = form_data[0].value;
     var s = form_data[1].value;
     var p = form_data[2].value;
@@ -177,11 +221,19 @@ var controller = {
       if (element.name == 'cities') {
         cities.push(element.value);
       }
-      console.log(cities);
+
       if (element.name == 'sectors') {
         sectors.push(element.value);
       }
-    });
+	});  
+	 if (n===""||s===""||p===""||st==""||(cities.length=== 0)|| (sectors.length===0)) {
+        var error = document.createElement('div');
+        error.appendChild(document.createTextNode("Please fill out all input fields."));
+        $("#comment2").append(error);
+		return;
+      }
+
+    
     //addcheck for input after testing
     var to_db = {
       type: "add_company",
@@ -197,15 +249,16 @@ var controller = {
       type: "POST",
       async: true,
       data: to_db
-    }).done(function(data){
+    }).done(function(data) {
       var parsed_data = JSON.parse(data);
       var comment = document.createElement('div');
       if (parsed_data["response"]["code"] == "400") {
         comment.appendChild(document.createTextNode(parsed_data["response"]["comment"]));
         $('#comment2').append(comment);
       } else if (parsed_data["response"]["code"] == "200") {
-        comment.appendChild(document.createTextNode(parsed_data["response"]["comment"]));
-        $('#comment2').append(comment);
+
+		comment.appendChild(document.createTextNode(parsed_data["response"]["comment"]));
+		$('#comment2').append(comment); 
       }
     });
   },
@@ -214,13 +267,26 @@ var controller = {
    * ADD SECTOR
    */
   executeAddSector: function(context) {
+    $('#profile_display').empty();
+    $('#comment2').empty();
     var form_data = $(context).serializeArray();
+    form_data.forEach(function(input) {
+      if (input.value === "") {
+        var error = document.createElement('div');
+        error.appendChild(document.createTextNode("Please fill out all input fields."));
+        $("#comment2").append(error);
+		empty_form = true;
+      }
+    });
+	if(empty_form){
+		return;
+	}
     var n = form_data[0].value;
     var d = form_data[1].value;
     var to_db = {
       type: "add_sector",
       sector_name: n,
-      sector_description:d
+      sector_description: d
     };
     //ajax request
     $.ajax({
@@ -247,7 +313,21 @@ var controller = {
    * ADD CITY
    */
   executeAddCity: function(context) {
+    $('#profile_display').empty();
+    $('#comment2').empty();
     var form_data = $(context).serializeArray();
+	var empty_form = false;
+    form_data.forEach(function(input) {
+      if (input.value === "") {
+        var error = document.createElement('div');
+        error.appendChild(document.createTextNode("Please fill out all input fields."));
+        $("#comment2").append(error);
+		empty_form = true;
+      }
+    });
+	if(empty_form){
+		return;
+	}
     var n = form_data[0].value;
     var to_db = {
       type: "add_city",

@@ -4,17 +4,21 @@ $(document).ready(function() {
   add_job();
 
   $('#company_location').click(function() {
+	      $('#comment').empty();
     add_company();
   });
 
   $('#job_location').click(function() {
+	      $('#comment').empty();
     add_job();
   });
 
   $('#city').click(function() {
+	      $('#comment').empty();
     add_city();
   });
   $('#sector').click(function() {
+	    $('#comment').empty();
     add_sector();
   });
 

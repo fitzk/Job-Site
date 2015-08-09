@@ -1,16 +1,18 @@
 $(document).ready(function() {
-  //city_search();
+  
   job_city_form();
   get_average_salary();
   $('#company_city').click(function() {
-    company_city_form();
+        $('#comment').empty();
+	company_city_form();
   });
 
   $('#job_city').click(function() {
-
+    $('#comment').empty();
     job_city_form();
   });
   $('#sector_city').click(function() {
+	      $('#comment').empty();
     $('#profile_display').empty();
     get_sector();
     sector_city_form();

@@ -1,4 +1,6 @@
 <?php
+
+ //SELECT AVG(job_salary) FROM `job` INNER JOIN company ON job.company_id = company.company_id WHERE job_title = 'Sample Engineer' AND company.company_name = 'Blue Coat';
  function connectToServer(){
      $dbhost = 'oniddb.cws.oregonstate.edu';
      $dbname = 'fitzsimk-db';
@@ -650,6 +652,7 @@ function job_city($job, $location)
         } else {
             $job_by_name = json_decode(job($job), 'true');
             $city_anyjob = json_decode(city_anyjob($location), 'true');
+						//echo "job_by_name: ".$job_by_name["response"];
             if ($job_by_name["response"]["code"] === "400" && $city_anyjob["response"]["code"] === "400") {
                 $companies["response"]["code"] = "400";
                 $companies["response"]["comments"] = "Error job_city";

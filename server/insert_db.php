@@ -232,11 +232,10 @@ function add_company($name, $size, $profit, $stock)
 {
 	$mysqli = connectToServer();
   $response= array(
-    "response"=>array(array(
+    "response"=>array(
       "code"=>"200",
-      "comment"=> "Successfuly added $name.\n"
+      "comment"=> "Successfully added $name.\n"
 		)
-  )
   );
 	if (!($stmt = $mysqli->prepare("INSERT IGNORE INTO company(company_name,company_size,company_profit,company_stock_symbol) VALUES (?,?,?,?);" ))) {
 		echo "Prepare failed: (" . $mysqli->errno . ") " . $mysqli->error;

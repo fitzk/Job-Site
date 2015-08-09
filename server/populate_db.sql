@@ -43,8 +43,8 @@ CONSTRAINT FOREIGN KEY(sector_id)
 REFERENCES sector(sector_id) ON DELETE SET NULL ON UPDATE CASCADE);
 
 CREATE TABLE IF NOT EXISTS city_sector(
-city_id INT(6) UNIQUE,
-sector_id INT(6) UNIQUE,
+city_id INT(6),
+sector_id INT(6),
 CONSTRAINT FOREIGN KEY(city_id)
 REFERENCES city(city_id) ON DELETE SET NULL ON UPDATE CASCADE,
 CONSTRAINT FOREIGN KEY(sector_id)
@@ -181,11 +181,11 @@ INSERT IGNORE INTO city_sector(city_id,sector_id) VALUES((SELECT city_id from ci
 INSERT IGNORE INTO city_sector(city_id,sector_id) VALUES((SELECT city_id from city where city_name = 'San Jose'),(SELECT sector_id from sector WHERE sector_name = 'Software'));
 INSERT IGNORE INTO city_sector(city_id,sector_id) VALUES((SELECT city_id from city where city_name = 'San Jose'),(SELECT sector_id from sector WHERE sector_name = 'Technical Documentation Solutions'));
 /*      */
-INSERT IGNORE INTO job(job_title,job_salary,company_id,city_id) VALUES ('QA Engineer','105983',(SELECT company_id from company where company_name = 'Adobe'), SELECT city_id from city WHERE city_name = 'San Jose'));
-INSERT IGNORE INTO job(job_title,job_salary,company_id,city_id) VALUES ('Product Manager','153917',(SELECT company_id from company where company_name = 'Adobe'), SELECT city_id from city WHERE city_name = 'San Jose'));
-INSERT IGNORE INTO job(job_title,job_salary,company_id,city_id) VALUES ('Senior Software Engineer','148938',(SELECT company_id from company where company_name = 'Adobe'), SELECT city_id from city WHERE city_name = 'San Jose'));
-INSERT IGNORE INTO job(job_title,job_salary,company_id,city_id) VALUES ('Senior Engineering Manager','197379',(SELECT company_id from company where company_name = 'Adobe'), SELECT city_id from city WHERE city_name = 'San Jose'));
-INSERT IGNORE INTO job(job_title,job_salary,company_id,city_id) VALUES ('Scientist','113851',(SELECT company_id from company where company_name = 'Adobe'), SELECT city_id from city WHERE city_name = 'San Jose'));
+INSERT IGNORE INTO job(job_title,job_salary,company_id,city_id) VALUES ('QA Engineer','105983',(SELECT company_id from company where company_name = 'Adobe'), (SELECT city_id from city WHERE city_name = 'San Jose'));
+INSERT IGNORE INTO job(job_title,job_salary,company_id,city_id) VALUES ('Product Manager','153917',(SELECT company_id from company where company_name = 'Adobe'), (SELECT city_id from city WHERE city_name = 'San Jose'));
+INSERT IGNORE INTO job(job_title,job_salary,company_id,city_id) VALUES ('Senior Software Engineer','148938',(SELECT company_id from company where company_name = 'Adobe'), (SELECT city_id from city WHERE city_name = 'San Jose'));
+INSERT IGNORE INTO job(job_title,job_salary,company_id,city_id) VALUES ('Senior Engineering Manager','197379',(SELECT company_id from company where company_name = 'Adobe'), (SELECT city_id from city WHERE city_name = 'San Jose'));
+INSERT IGNORE INTO job(job_title,job_salary,company_id,city_id) VALUES ('Scientist','113851',(SELECT company_id from company where company_name = 'Adobe'), (SELECT city_id from city WHERE city_name = 'San Jose'));
 /*  */
 INSERT IGNORE INTO company(company_name,company_size,company_profit,company_stock_symbol) VALUES ('Yahoo', '5000+','$2 to $5 billion','YHOO');
 INSERT IGNORE INTO company_city(company_id,city_id) VALUES((SELECT company_id from company where company_name = 'Yahoo'),(SELECT city_id from city WHERE city_name = 'Sunnyvale'));
@@ -200,3 +200,12 @@ INSERT IGNORE INTO company_sector(company_id,sector_id) VALUES((SELECT company_i
 INSERT IGNORE INTO company_sector(company_id,sector_id) VALUES((SELECT company_id from company where company_name = 'Symantec'),(SELECT sector_id from sector WHERE sector_name = 'Software'));
 INSERT IGNORE INTO city_sector(city_id,sector_id) VALUES((SELECT city_id from city where city_name = 'Mountain View'),(SELECT sector_id from sector WHERE sector_name = 'Other'));
 INSERT IGNORE INTO city_sector(city_id,sector_id) VALUES((SELECT city_id from city where city_name = 'Mountain View'),(SELECT sector_id from sector WHERE sector_name = 'Software'));
+INSERT IGNORE INTO city(city_name) VALUES (new);
+INSERT IGNORE INTO city(city_name) VALUES (new);
+INSERT IGNORE INTO city(city_name) VALUES (san jose);
+INSERT IGNORE INTO city(city_name) VALUES (new);
+INSERT IGNORE INTO city(city_name) VALUES (new);
+INSERT IGNORE INTO city(city_name) VALUES (new);
+INSERT IGNORE INTO city(city_name) VALUES (new);
+INSERT IGNORE INTO city(city_name) VALUES (san jose);
+INSERT IGNORE INTO city(city_name) VALUES (new place);

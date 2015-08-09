@@ -20,12 +20,12 @@ ini_set('display_errors','On');
     <nav class="navbar navbar-inverse">
       <div class="container-fluid">
         <div class="navbar-header">
-          <a class="navbar-brand" href="#">Final</a>
+          <a class="navbar-brand" href="#">SBT: Backend UI</a>
         </div>
         <div>
           <ul class="nav navbar-nav">
-            <li class="active"><a href="home.html">Home</a></li>
-            <li><a href="add_db.html">Add</a></li>
+            <li><a href="home.html">Home</a></li>
+            <li class="active"><a href="add_db.html">Add</a></li>
           </ul>
         </div>
       </div>
@@ -37,13 +37,14 @@ ini_set('display_errors','On');
     </div>
     <div style="margin-top:5px" class="container-fluid" id='main'>
       <div class="row-fluid">
-        <div class="col-md-6 text-center" id="search_div">
+        <div class="col-md-8">
           <div style="margin-top:5px" class="btn-group" id="search_jcs">
             <button type="button" id="job_location" class="btn btn-large btn-warning">Add A Job</button>
             <button type="button" id="company_location" class="btn btn-large btn-warning">Add A Company</button>
-            <button type="button" id="sector_location" class="btn btn-large btn-warning">Add A Sector</button>
+            <button type="button" id="sector" class="btn btn-large btn-warning">Add A Sector</button>
             <button type="button" id="city" class="btn btn-large btn-warning">Add A City</button>
           </div>
+          <div class="col-md-6 text-center" id="search_div">
           <div style="margin-top:10px" class="text-left" id="form_jcs">
             <form id="controller_form" class="form form-horizontal">
               <div id="form_main" class="form-group"></div>
@@ -54,8 +55,9 @@ ini_set('display_errors','On');
             </form>
           </div>
         </div>
-        <div id="comment2"></div>
-        <div id="center" class="col-md-6">
+      </div>
+        <div id="center" class="col-md-4">
+          <div id="comment2" class="text-center"></div>
           <div style="" class="" id="profile_display"></div>
         </div>
       </div>

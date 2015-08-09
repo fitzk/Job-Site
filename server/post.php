@@ -47,8 +47,57 @@ if (isset($_POST['type']) && $_POST['type'] === 'add_company') {
 	}
 }
 
-if (isset($_POST['type']) && $_POST['type'] === 'add_sector') {
-	echo add_sector($_POST['sector_name'], $_POST['sector_description']);
-}
 
+if (isset($_POST['type']) && $_POST['type'] === 'add_sector') {
+  $name = $_POST['sector_name'];
+	$lname = strtolower($name);
+	$current_sectors = json_decode(sector(),'true');
+	$response= array("response"=>array(
+      "code"=>"400",
+      "comment"=> "$name already exists in the database.\n"
+    )
+  );
+$sent = 'false';
+	foreach($current_sectors['data'] as $sector){
+		foreach($sector as $s){
+			$sl = strtolower($s);
+			if($lname === $sl){
+				echo json_encode($response);
+				$sent = 'true';
+		}
+	}
+	}
+	if($sent ==='false'){
+		$result = add_sector($_POST['sector_name'], $_POST['sector_description']);
+		echo $result;
+	}
+}
+////////////////////////////////////////////////////////////
+// add city
+//
+////////////////////////////////////////////////////////////
+if (isset($_POST['type']) && $_POST['type'] === 'add_city') {
+  $name = $_POST['name'];
+	$lname = strtolower($name);
+	$current_cities = json_decode(city(),'true');
+	$response= array("response"=>array(
+      "code"=>"400",
+      "comment"=> "$name already exists in the database.\n"
+    )
+  );
+$sent = 'false';
+	foreach($current_cities['data'] as $city){
+		foreach($city as $c){
+			$cl = strtolower($c);
+			if($lname === $cl){
+				echo json_encode($response);
+				$sent = 'true';
+		}
+	}
+	}
+	if($sent ==='false'){
+ 		$result = add_city($_POST['name']);
+		echo $result;
+	}
+}
 ?>

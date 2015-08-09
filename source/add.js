@@ -10,6 +10,14 @@ $(document).ready(function() {
   $('#job_location').click(function() {
     add_job();
   });
+
+  $('#city').click(function() {
+    add_city();
+  });
+  $('#sector').click(function() {
+    add_sector();
+  });
+
 });
 /////////////////////////////////////
 //
@@ -310,6 +318,115 @@ function add_job() {
     main_div.appendChild(element);
   });
   controller.execute = controller.executeAddJob;
+}
+//////////////////////////////////////
+//function: add city
+// adds city to database
+////////////////////////////////////
+function add_city() {
+  //clear main
+  //$('#form_jcs').empty();
+  var form_area = document.getElementById("form_jcs");
+  form_area.firstChild.id = "aj_form";
+  var main_div = document.getElementById("form_main");
+  main_div.innerHTML = '';
+  var async_div = document.getElementById('async');
+  async_div.innerHTML = '';
+
+  var name_div = document.createElement("div");
+  name_div.className = "";
+  var name = document.createElement('input');
+  name.className = "form-control";
+  name.type = "text";
+  name.name = "name";
+  name.value = "";
+  name.placeholder = "New City";
+  name_div.appendChild(name);
+
+  //list.insertBefore(newItem, list.childNodes[0]);
+  var name_label = document.createElement("label");
+  name_label.setAttribute('for', 'name');
+  name_label.className = "control-label";
+  var name_text = document.createTextNode("Name");
+  name_label.appendChild(name_text);
+
+  //appends each input to form
+  var name_group = document.createElement("div");
+  name_group.className = "form-group";
+  name_group.appendChild(name_label);
+  name_group.appendChild(name_div);
+
+  var to_append = [name_group];
+  to_append.forEach(function(element) {
+    main_div.appendChild(element);
+  });
+  controller.execute = controller.executeAddCity;
+}
+//////////////////////////////////////
+//function: add city
+// adds city to database
+////////////////////////////////////
+function add_sector() {
+  //clear main
+  //$('#form_jcs').empty();
+  var form_area = document.getElementById("form_jcs");
+  form_area.firstChild.id = "aj_form";
+  var main_div = document.getElementById("form_main");
+  main_div.innerHTML = '';
+  var async_div = document.getElementById('async');
+  async_div.innerHTML = '';
+
+  var name_div = document.createElement("div");
+  name_div.className = "";
+  var name = document.createElement('input');
+  name.className = "form-control";
+  name.type = "text";
+  name.name = "name";
+  name.value = "";
+  name.placeholder = "New Sector";
+  name_div.appendChild(name);
+
+  //list.insertBefore(newItem, list.childNodes[0]);
+  var name_label = document.createElement("label");
+  name_label.setAttribute('for', 'name');
+  name_label.className = "control-label";
+  var name_text = document.createTextNode("Name");
+  name_label.appendChild(name_text);
+
+  //appends each input to form
+  var name_group = document.createElement("div");
+  name_group.className = "form-group";
+  name_group.appendChild(name_label);
+  name_group.appendChild(name_div);
+
+  var description_div = document.createElement("div");
+  description_div.className = "";
+  var description = document.createElement('input');
+  description.className = "form-control";
+  description.type = "text";
+  description.name = "description";
+  description.value = "";
+  description.placeholder = "Description";
+  description_div.appendChild(description);
+
+  //list.insertBefore(newItem, list.childNodes[0]);
+  var description_label = document.createElement("label");
+  description_label.setAttribute('for', 'description');
+  description_label.className = "control-label";
+  var description_text = document.createTextNode("Descripton");
+  description_label.appendChild(description_text);
+
+  //appends each input to form
+  var description_group = document.createElement("div");
+  description_group.className = "form-group";
+  description_group.appendChild(description_label);
+  description_group.appendChild(description_div);
+
+  var to_append = [name_group, description_group];
+  to_append.forEach(function(element) {
+    main_div.appendChild(element);
+  });
+  controller.execute = controller.executeAddSector;
 }
 ///////////////////////////////////////
 // params: form object, json object,

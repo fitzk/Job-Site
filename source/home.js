@@ -30,9 +30,9 @@ function format2currency(n, currency) {
   }
 }
 ////////////////////////////////////////
-//
-//
-//
+// function: get average salary
+// gets ave data and calls table
+// for main
 ////////////////////////////////////////
 function get_average_salary() {
 
@@ -50,11 +50,11 @@ function get_average_salary() {
     generate_table(parsed_data, "Salary by Job Title");
   });
 }
-////////////////////////////////////////////////////
+/////////////////////////////////////////////
 // function: generate table
 // paramebers: unparsed JSON object and a
 // Title for the Table
-////////////////////////////////////////////////////
+/////////////////////////////////////////////
 function generate_table(table_content, text) {
   var profile_display = document.getElementById('profile_display');
   var profile = document.createElement('table');
@@ -250,7 +250,7 @@ function sector_city_form() {
   var location_text = document.createTextNode("City");
   location_label.appendChild(location_text);
   //appends each input to form
-  var to_append = [name_label, name_div, location_label, location_div];
+  var to_append = [location_label, location_div];
   to_append.forEach(function(element) {
     main_div.appendChild(element);
   });

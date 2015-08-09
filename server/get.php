@@ -32,4 +32,8 @@ if(isset($_GET['type']) && $_GET['type'] === 'job_city'){
 	$result = job_city($_GET['name'],$_GET['location']);
 	echo $result;
 }
+if(isset($_GET['type']) && $_GET['type'] === 'sector_city'){
+	$result = sector_city(/*$_GET['name'],*/$_GET['location']);
+	echo $result;
+}
 ?>

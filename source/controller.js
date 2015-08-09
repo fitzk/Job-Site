@@ -27,12 +27,14 @@ var controller = {
       $('#profile_display').empty();
       var comment = document.createElement('div');
       if (parsed_data["response"]["code"] == "400") {
+        $('#comment').empty();
         comment.appendChild(document.createTextNode(parsed_data["response"]["comment"]));
         $('#comment').append(comment);
       } else if (parsed_data["response"]["code"] == "200") {
+        comment.innerHTML='';
         comment.appendChild(document.createTextNode(parsed_data["response"]["comment"]));
         $('#comment').append(comment);
-        var job_data = parsed_data["data"];
+        var job_data = parsed_data["job_data"];
         generate_table(parsed_data, "Company");
         if (typeof(job_data[0]) != 'undefined') {
           generate_table(job_data[0], "Job Information");
@@ -75,7 +77,6 @@ var controller = {
         if (typeof(job_data[0]) != 'undefined') {
           generate_table(job_data[0], "Employee Information");
         }
-        generate_table(parsed_data);
       }
     });
   },
@@ -85,12 +86,11 @@ var controller = {
   */
   executeSector: function(context) {
     var form_data = $(context).serializeArray();
-    var n = form_data[0].value;
-    var l = form_data[1].value;
+    var l = form_data[0].value;
 
     var to_db = {
       type: "sector_city",
-      name: n,
+      //name: n,
       location: l
     };
     //ajax request
@@ -100,17 +100,21 @@ var controller = {
       async: true,
       data: to_db
     }).done(function(data) {
-        main_div.innerHTML='';
+      var parsed_data = JSON.parse(data);
+      var comment = document.createElement('div');
       $('#profile_display').empty();
-      if (data == "400") {
+      if (parsed_data["response"]["code"] == "400") {
+        comment.appendChild(document.createTextNode(parsed_data["response"]["comment"]));
 
-      } else {
-        var parsed_data = JSON.parse(data);
-        var job_data = parsed_data["job_data"];
+        $('#comment').empty().append(comment);
+      } else if(parsed_data["response"]["code"] == "200") {
+        comment.appendChild(document.createTextNode(parsed_data["response"]["comment"]));
+        $('#comment').append(comment);
+        //var company_data = parsed_data["data"];
         generate_table(parsed_data, "Sector");
-        if (typeof(job_data[0]) != 'undefined') {
-          generate_table(job_data[0], "Employee Information");
-        }
+        //if (typeof(job_data[0]) != 'undefined') {
+          //generate_table(job_data[0], "Compan");
+        //}
       }
     });
   },
@@ -119,7 +123,7 @@ var controller = {
   * GET CITY
   */
   executeCity: function(context) {
-    throw "Note implemented yet."
+    throw "Not implemented yet."
   },
 
   /*
@@ -147,15 +151,13 @@ var controller = {
       data: to_db
     }).done(function(data) {
       var parsed_data = JSON.parse(data);
-      $('#profile_display').empty();
-      $('#comment').append(comment);
       var comment = document.createElement('div');
       if (parsed_data["response"]["code"] == "400") {
         comment.appendChild(document.createTextNode(parsed_data["response"]["comment"]));
-        $('#comment').append(comment);
+        $('#comment2').append(comment);
       } else if (parsed_data["response"]["code"] == "200") {
         comment.appendChild(document.createTextNode(parsed_data["response"]["comment"]));
-        $('#comment').append(comment);
+        $('#comment2').append(comment);
       }
     });
   },
@@ -197,14 +199,13 @@ var controller = {
       data: to_db
     }).done(function(data){
       var parsed_data = JSON.parse(data);
-      $('#profile_display').empty();
       var comment = document.createElement('div');
       if (parsed_data["response"]["code"] == "400") {
         comment.appendChild(document.createTextNode(parsed_data["response"]["comment"]));
         $('#comment2').append(comment);
       } else if (parsed_data["response"]["code"] == "200") {
         comment.appendChild(document.createTextNode(parsed_data["response"]["comment"]));
-        $('#comment').append(comment);
+        $('#comment2').append(comment);
       }
     });
   },
@@ -213,13 +214,63 @@ var controller = {
    * ADD SECTOR
    */
   executeAddSector: function(context) {
-    throw "Not implemented yet."
+    var form_data = $(context).serializeArray();
+    var n = form_data[0].value;
+    var d = form_data[1].value;
+    var to_db = {
+      type: "add_sector",
+      sector_name: n,
+      sector_description:d
+    };
+    //ajax request
+    $.ajax({
+      url: '../server/post.php',
+      type: "POST",
+      async: true,
+      data: to_db
+    }).done(function(data) {
+      console.log(data);
+      var parsed_data = JSON.parse(data);
+      var comment = document.createElement('div');
+      $('#comment2').append(comment);
+      if (parsed_data["response"]["code"] == "400") {
+        comment.appendChild(document.createTextNode(parsed_data["response"]["comment"]));
+        $('#comment2').append(comment);
+      } else if (parsed_data["response"]["code"] == "200") {
+        comment.appendChild(document.createTextNode(parsed_data["response"]["comment"]));
+        $('#comment2').append(comment);
+      }
+    });
   },
 
   /*
    * ADD CITY
    */
   executeAddCity: function(context) {
-    throw "Not implemented yet."
+    var form_data = $(context).serializeArray();
+    var n = form_data[0].value;
+    var to_db = {
+      type: "add_city",
+      name: n
+    };
+    //ajax request
+    $.ajax({
+      url: '../server/post.php',
+      type: "POST",
+      async: true,
+      data: to_db
+    }).done(function(data) {
+      console.log(data);
+      var parsed_data = JSON.parse(data);
+      var comment = document.createElement('div');
+      $('#comment2').append(comment);
+      if (parsed_data["response"]["code"] == "400") {
+        comment.appendChild(document.createTextNode(parsed_data["response"]["comment"]));
+        $('#comment2').append(comment);
+      } else if (parsed_data["response"]["code"] == "200") {
+        comment.appendChild(document.createTextNode(parsed_data["response"]["comment"]));
+        $('#comment2').append(comment);
+      }
+    });
   }
 }

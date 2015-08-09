@@ -86,13 +86,11 @@ function insert_city_sector($city, $sector)
 function insert_company_sector($company, $sector)
 {
 	$mysqli = connectToServer();
-  $response= array(array(
-    "response"=>array(array(
+  $response= array(
+    "response"=>array(
       "code"=>"200",
       "comment"=> "Successfuly associated $company with $sector.\n"
-    )
 	)
-)
 );
 	if (!($stmt = $mysqli->prepare("INSERT IGNORE INTO company_sector(company_id,sector_id)
   VALUES((SELECT company_id from company where company_name = ?),
@@ -140,6 +138,11 @@ function add_sector($sector_name, $sector_description)
 		echo "Execute failed: (" . $stmt->errno . ") " . $stmt->error;
     $response['response']['code']="400";
     $response['response']['comment']="Insert failed, please try again.";
+	}else {
+		$myfile = fopen("populate_db.sql", "a") or die("Unable to open file!");
+		$txt = "INSERT INTO sector(sector_name,sector_description) VALUES ($sector_name,$sector_description)\n";
+		fwrite($myfile, $txt);
+		fclose($myfile);
 	}
   return json_encode($response);
 	$mysqli->close();
@@ -183,6 +186,42 @@ function add_job($job_title, $job_salary, $company_name, $city)
   return json_encode($response);
 
 }
+// //////////////////////////////////////////////////////
+// fucntion: add job
+// takes job title, salary, company, and city
+// returns message if successful
+// /////////////////////////////////////////////////////
+
+function add_city($city_name)
+{
+	$mysqli = connectToServer();
+  $response= array("response"=>array(
+      "code"=>"200",
+      "comment"=> "Successfuly added $city_name.\n"
+    )
+  );
+	if (!($stmt = $mysqli->prepare("INSERT IGNORE INTO city(city_name)
+    VALUES (?);"))) {
+		echo "Prepare failed: (" . $mysqli->errno . ") " . $mysqli->error;
+	}
+
+	if (!$stmt->bind_param("s", $city_name)) {
+		echo "Binding parameters failed: (" . $stmt->errno . ") " . $stmt->error;
+	}
+	if (!$stmt->execute()) {
+		echo "Execute failed: (" . $stmt->errno . ") " . $stmt->error;
+    $response['response']['code']="400";
+    $response['response']['comment'] = "Insert failed, please try again.";
+	}else {
+		$myfile = fopen("populate_db.sql", "a") or die("Unable to open file!");
+		$txt = "INSERT IGNORE INTO city(city_name) VALUES ($city_name);\n";
+		fwrite($myfile, $txt);
+		fclose($myfile);
+	}
+	$mysqli->close();
+  return json_encode($response);
+}
+
 
 // ///////////////////////////////////////
 //
@@ -221,6 +260,7 @@ function add_company($name, $size, $profit, $stock)
 	$mysqli->close();
 	return json_encode($response);
 }
+
 function gen_db()
 {
 	$mysqli = connectToServer();

@@ -25,24 +25,44 @@ ini_set('display_errors','On');
         <div>
           <ul class="nav navbar-nav">
             <li class="active"><a href="home.html">Home</a></li>
-            <li><a href="search.html">Search</a></li>
             <li><a href="add_db.html">Add</a></li>
-            <li><a href="#">Page 3</a></li>
           </ul>
         </div>
       </div>
     </nav>
-
-    <div style="margin-top:5px" class="container" id='main'>
-      <div style="margin-top:5px" class="btn-group" id="search_jcs">
-        <button type="button" id="job_location" class="btn btn-primary">Job Title</button>
-        <button type="button" id="company_location" class="btn btn-primary">Company</button>
-        <button type="button" id="sector_location" class="btn btn-primary">Sector</button>
+    <div id="headerdiv" class="col-md-12 text-center">
+      <div class="text-center">
+        <h1 id="head_logo">South Bay Tech</h1>
       </div>
-      <div style="margin-top:10px" id="form_jcs"></div>
     </div>
-    <div style="margin-top:10px" class="container" id="profile_display">
-    </div>
+    <div style="margin-top:5px" class="container-fluid" id='main'>
+      <div class="row-fluid">
+        <div class="col-md-3 text-center" id="search_div">
+          <div style="margin-top:5px" class="btn-group" id="search_jcs">
+            <button type="button" id="job_city" class="btn btn-large btn-warning">Job Title</button>
+            <button type="button" id="company_city" class="btn btn-large btn-warning">Company</button>
+            <button type="button" id="sector_city" class="btn btn-large btn-warning">Sector</button>
+          </div>
+          <div style="margin-top:10px" class="text-left" id="form_jcs">
+            <form id="c_form" class="form form-horizontal">
+              <div id="form_main" class="form-group"></div>
+              <div id="form_async" class="form-group"></div>
+              <div id="submit_div" class="text-right">
+              <input type='submit' class="btn btn-default"></input>
+              </div>
+              <div></div>
+            </form>
+          </div>
+        </div>
+        <div id="comment"></div>
+        <div id="center" class="col-md-6">
+          <div style="" class="" id="profile_display"></div>
+        </div>
+        <div id="left" class="col-md-3">
+          <div style="" class="" id="side_display"></div>
+        </div>
+
+      </div>
     </div>
   </body>
   <script src="../source/home.js"></script>

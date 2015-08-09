@@ -1,46 +1,66 @@
 <?php
 session_start();
-
+error_reporting(E_ALL);
+ini_set('display_errors','On');
 ?>
-<!DOCTYPE html>
-<html>
+  <!DOCTYPE html>
+  <html>
+
   <head>
     <title>CS340 Final Project</title>
-    <link rel="stylesheet" href="../third-party/css/bootstrap.min.css">
-  	<script src="../third-party/js/jquery.min.js"></script>
-  	<script src="../third-party/js/bootstrap.min.js"></script>
-	<script src="../source/script.js"></script>
-	<link rel="stylesheet" type="text/css" href="../style/style.css" />
+    <link rel="stylesheet" href="../third-party/css/bootstrap.min.css" />
+    <link rel="stylesheet" type="text/css" href="../style/style.css" />
+    <link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css" />
+    <script src="../third-party/js/jquery-2.1.4.min.js"></script>
+    <script src="../third-party/js/bootstrap.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js"></script>
   </head>
+
   <body>
-  <nav class="navbar navbar-inverse">
-  <div class="container-fluid">
-    <div class="navbar-header">
-      <a class="navbar-brand" href="#">Final</a>
+    <nav class="navbar navbar-inverse">
+      <div class="container-fluid">
+        <div class="navbar-header">
+          <a class="navbar-brand" href="#">Final</a>
+        </div>
+        <div>
+          <ul class="nav navbar-nav">
+            <li class="active"><a href="home.html">Home</a></li>
+            <li><a href="add_db.html">Add</a></li>
+          </ul>
+        </div>
+      </div>
+    </nav>
+    <div id="headerdiv" class="col-md-12 text-center">
+      <div class="text-center">
+        <h1 id="head_logo">South Bay Tech</h1>
+      </div>
     </div>
-    <div>
-      <ul class="nav navbar-nav">
-        <li class="active"><a href="home.html">Home</a></li>
-        <li><a href="search.html">Search</a></li>
-        <li><a href="add_db.html">Add</a></li>
-        <li><a href="#">Page 3</a></li>
-      </ul>
+    <div style="margin-top:5px" class="container-fluid" id='main'>
+      <div class="row-fluid">
+        <div class="col-md-6 text-center" id="search_div">
+          <div style="margin-top:5px" class="btn-group" id="search_jcs">
+            <button type="button" id="job_location" class="btn btn-large btn-warning">Add A Job</button>
+            <button type="button" id="company_location" class="btn btn-large btn-warning">Add A Company</button>
+            <button type="button" id="sector_location" class="btn btn-large btn-warning">Add A Sector</button>
+            <button type="button" id="city" class="btn btn-large btn-warning">Add A City</button>
+          </div>
+          <div style="margin-top:10px" class="text-left" id="form_jcs">
+            <form id="c_form" class="form form-horizontal">
+              <div id="form_main" class="form-group"></div>
+              <div id="async" class="form-group"></div>
+              <div id="submit_div" class="form-group">
+                 <input type='submit' class="btn btn-default"></input></div>
+              <div></div>
+            </form>
+          </div>
+        </div>
+        <div id="comment2"></div>
+        <div id="center" class="col-md-6">
+          <div style="" class="" id="profile_display"></div>
+        </div>
+      </div>
     </div>
-  </div>
-</nav>
-<div class = "container">
-  <div class="row">
-	<h1>Company</h1>
-	<div id="company" class="col-md-3"></div>
-	</div>
-  <div class="row">
-	<h1>Sector</h1>
-	<div id="sector" class="col-md-3"></div>
-</div>
-  <div class="row">
-	<h1>Employee</h1>
-	<div id="sector" class="col-md-6"></div>
-</div>
-	</div>
   </body>
-</html>
+  <script src="../source/add.js"></script>
+
+  </html>

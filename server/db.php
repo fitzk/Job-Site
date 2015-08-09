@@ -50,10 +50,11 @@ function city_anyjob($city_name)
 	else {
 		$result = $stmt->get_result();
 		$companies = array(
-			"response" =>array(
+			"response" =>array(array(
 			"code"=>"200",
 			"comment"=>"0 Results. Here are some jobs associated with the city you searched for..."
-		),
+		)
+	),
 			"headers" => array(
 				array(
 					"title" => "Job Title",
@@ -153,10 +154,11 @@ function company_city($company, $location)
 	else {
 		$result = $stmt->get_result();
 		$companies = array(
-			"response" =>array(
+			"response" =>array(array(
 			"code"=>"200",
 			"comment"=>""
-		),
+		)
+	),
 			"headers" => array(
 				array(
 					"name" => "Name",
@@ -223,10 +225,11 @@ function company($company)
 	}
 	else {
 		$companies = array(
-			"response" =>array(
+			"response" =>array(array(
 			"code"=>"200",
 			"comment"=>"0 results. Here are the cities associated with the company you searched for..."
-		),
+		)
+	),
 			"headers" => array(
 				array(
 					"company" => "Company",
@@ -344,14 +347,15 @@ function city()
 /////////////////////////////////////////////
 function sector(){
 	$mysqli = connectToServer();
-	$sql = "SELECT sector.sector_name FROM sector ORDER BY `sector`.`sector_name` ASC";
+	$sql = "SELECT sector.sector_name FROM sector ORDER BY sector.sector_name ASC";
 	if (!$result = $mysqli->query($sql)) {
 		echo "Execute failed: (" . $mysqli->errno . ") " . $mysqli->error;
 	}else {
 		$companies = array(
-			"response" =>array(
+			"response" =>array(array(
 				"code"=>"200",
 				"comment"=>"All sectors in database"
+				)
 			),
 			"headers" => array(
 				array(
@@ -364,14 +368,14 @@ function sector(){
 			while ($row = $result->fetch_array(MYSQL_ASSOC)) {
 				array_push($companies["data"], $row);
 			}
-
 		}
 		else {
 			$companies["response"]["code"]="400";
+			$companies["response"]["comment"]="Internal error in sector.";
 		}
 	}
-	$result->close();
 	return json_encode($companies);
+	$result->close();
 	$mysqli->close();
 }
 //////////////////////////////////////////////
@@ -385,9 +389,10 @@ function sector2(){
 		echo "Execute failed: (" . $mysqli->errno . ") " . $mysqli->error;
 	}else {
 		$companies = array(
-			"response" =>array(
+			"response" =>array(array(
 			"code"=>"200",
 			"comment"=>"0 results. Here are all the Sectors that currently have companies associate with them..."
+		)
 		),
 			"headers" => array(
 				array(
@@ -422,16 +427,17 @@ function ave_job(){
 		echo "Execute failed: (" . $mysqli->errno . ") " . $mysqli->error;
 	}else {
 		$companies = array(
-			"response" =>array(
+			"response" =>array(array(
 				"code"=>"200",
 				"comment"=>''
-			),
+			)
+		),
 			"headers" => array(
 				array(
 					"title" => "Job Title",
 					"salary" => "Average Salary"
 				)
-			) ,
+			),
 			"data" => array()
 		);
 		if ($result->num_rows > 0) {
@@ -471,8 +477,10 @@ WHERE job.job_title = ?"))) {
 		$result = $stmt->get_result();
 		$companies = array(
 			"response" => array(
+				array(
 			"code"=>"200",
 			"comment"=>"Here are some jobs in local cities associated with the job title you requested..."
+		 )
 		),
 			"headers" => array(
 				array(
@@ -522,9 +530,10 @@ function job_company($job, $company)
 	else {
 	  $result = $stmt->get_result();
 		$companies = array(
-			"response" =>array(
+			"response" =>array(array(
 			"code"=>"200",
 			"comment"=>""
+		)
 		),
 			"headers" => array(
 				array(
@@ -561,6 +570,7 @@ function job_company($job, $company)
 	}
 	$mysqli->close();
 }
+/**/
 function job_city($job, $location)
 {
 	$mysqli = connectToServer();
@@ -579,10 +589,11 @@ function job_city($job, $location)
 	}
 	else {
 	  $result = $stmt->get_result();
-		$companies = array(
-			"response" =>array(
+		$companies = array(array(
+			"response" =>array(array(
 			"code"=>"200",
 			"comment"=>""
+		)
 		),
 			"headers" => array(
 				array(
@@ -592,7 +603,7 @@ function job_city($job, $location)
 				)
 			) ,
 			"data" => array()
-		);
+		));
 
 		if ($result->num_rows > 0) {
 			$row_results = array();
@@ -611,10 +622,10 @@ function job_city($job, $location)
 				return json_encode($companies);
 			}
 			elseif ($job_by_name["response"]["code"] === "400") {
-				return $city_anyjob;
+				return json_encode($city_anyjob);
 			}
 			else {
-				return $job_by_name;
+				return json_encode($job_by_name);
 			}
 		}
 	}

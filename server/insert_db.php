@@ -9,9 +9,11 @@ function insert_company_city($company, $city)
 	$mysqli = connectToServer();
   $response= array(
     "response"=>array(
+			array(
       "code"=>"200",
       "comment"=> "Successfuly associated $company with $city.\n"
     )
+		)
   );
 	if (!($stmt = $mysqli->prepare("INSERT IGNORE INTO company_city(company_id,city_id)
   VALUES((SELECT company_id from company where company_name = ?),(SELECT city_id from city WHERE city_name = ?));"))) {
@@ -47,10 +49,11 @@ function insert_city_sector($city, $sector)
 {
 	$mysqli = connectToServer();
   $response= array(
-    "response"=>array(
+    "response"=>array(array(
       "code"=>"200",
       "comment"=> "Successfuly associated $city with $sector.\n"
     )
+		)
   );
 	if (!($stmt = $mysqli->prepare("INSERT IGNORE INTO city_sector(city_id,sector_id)
   VALUES((SELECT city_id from city WHERE city_name = ?),(SELECT sector_id from sector WHERE sector_name = ?));")))
@@ -83,12 +86,14 @@ function insert_city_sector($city, $sector)
 function insert_company_sector($company, $sector)
 {
 	$mysqli = connectToServer();
-  $response= array(
-    "response"=>array(
+  $response= array(array(
+    "response"=>array(array(
       "code"=>"200",
       "comment"=> "Successfuly associated $company with $sector.\n"
     )
-  );
+	)
+)
+);
 	if (!($stmt = $mysqli->prepare("INSERT IGNORE INTO company_sector(company_id,sector_id)
   VALUES((SELECT company_id from company where company_name = ?),
   (SELECT sector_id from sector WHERE sector_name = ?));"))) {
@@ -149,15 +154,14 @@ function add_sector($sector_name, $sector_description)
 function add_job($job_title, $job_salary, $company_name, $city)
 {
 	$mysqli = connectToServer();
-  $response= array(
-    "response"=>array(
+  $response= array("response"=>array(
       "code"=>"200",
       "comment"=> "Successfuly added $job_title.\n"
     )
   );
 	if (!($stmt = $mysqli->prepare("INSERT IGNORE INTO job(job_title,job_salary,company_id,city_id)
     VALUES (?,?,(SELECT company_id from company where company_name = ?),
-    (SELECT city_id from city WHERE city_name = ?))"))) {
+    (SELECT city_id from city WHERE city_name = ?));"))) {
 		echo "Prepare failed: (" . $mysqli->errno . ") " . $mysqli->error;
 	}
 
@@ -168,16 +172,16 @@ function add_job($job_title, $job_salary, $company_name, $city)
 	if (!$stmt->execute()) {
 		echo "Execute failed: (" . $stmt->errno . ") " . $stmt->error;
     $response['response']['code']="400";
-    $response['response']['comment']="Insert failed, please try again.";
-	}
-	else {
+    $response['response']['comment'] = "Insert failed, please try again.";
+	}else {
 		$myfile = fopen("populate_db.sql", "a") or die("Unable to open file!");
-		$txt = "INSERT IGNORE INTO job(job_title,job_salary,company_id,city_id) VALUES ($job_title,$job_salary,(SELECT company_id from company where company_name = '$company_name'), SELECT city_id from city WHERE city_name = '$city'));\n";
+		$txt = "INSERT IGNORE INTO job(job_title,job_salary,company_id,city_id) VALUES ('$job_title','$job_salary',(SELECT company_id from company where company_name = '$company_name'), SELECT city_id from city WHERE city_name = '$city'));\n";
 		fwrite($myfile, $txt);
 		fclose($myfile);
 	}
-  return json_encode($response);
 	$mysqli->close();
+  return json_encode($response);
+
 }
 
 // ///////////////////////////////////////
@@ -189,10 +193,11 @@ function add_company($name, $size, $profit, $stock)
 {
 	$mysqli = connectToServer();
   $response= array(
-    "response"=>array(
+    "response"=>array(array(
       "code"=>"200",
       "comment"=> "Successfuly added $name.\n"
-    )
+		)
+  )
   );
 	if (!($stmt = $mysqli->prepare("INSERT IGNORE INTO company(company_name,company_size,company_profit,company_stock_symbol) VALUES (?,?,?,?);" ))) {
 		echo "Prepare failed: (" . $mysqli->errno . ") " . $mysqli->error;
@@ -213,8 +218,8 @@ function add_company($name, $size, $profit, $stock)
 		fwrite($myfile, $txt);
 		fclose($myfile);
 	}
-  return json_encode($response);
 	$mysqli->close();
+	return json_encode($response);
 }
 function gen_db()
 {

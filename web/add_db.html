@@ -45,7 +45,7 @@ ini_set('display_errors','On');
             <button type="button" id="city" class="btn btn-large btn-warning">Add A City</button>
           </div>
           <div style="margin-top:10px" class="text-left" id="form_jcs">
-            <form id="c_form" class="form form-horizontal">
+            <form id="controller_form" class="form form-horizontal">
               <div id="form_main" class="form-group"></div>
               <div id="async" class="form-group"></div>
               <div id="submit_div" class="form-group">
@@ -61,6 +61,15 @@ ini_set('display_errors','On');
       </div>
     </div>
   </body>
-  <script src="../source/add.js"></script>
+  <script type="text/javascript" src="../source/controller.js"></script>
+  <script type="text/javascript" src="../source/add.js"></script>
+  <script type="text/javascript">
+    $('#controller_form').submit(function(event) {
+      event.preventDefault();
+      // pass context to the controller so that form data can be serialized.
+      controller.execute(this);
+    });
+  </script>
 
+  </script>
   </html>

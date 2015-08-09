@@ -98,7 +98,7 @@ function add_company() {
   profit.value = "";
   profit.placeholder = "$2 billion+";
   profit_div.appendChild(profit);
-  //input for company size
+
   var stock_symbol_div = document.createElement("div");
   stock_symbol_div.className = "";
   var stock_symbol = document.createElement('input');
@@ -109,7 +109,6 @@ function add_company() {
   stock_symbol.value = "";
   stock_symbol_div.appendChild(stock_symbol);
 
-  //list.insertBefore(newItem, list.childNodes[0]);
   var company_name_label = document.createElement("label");
   company_name_label.setAttribute('for', 'name');
   company_name_label.className = "control-label";
@@ -154,8 +153,6 @@ function add_company() {
   stock_symbol_group.appendChild(stock_symbol_label);
   stock_symbol_group.appendChild(stock_symbol_div);
 
-
-
   var to_append = [company_name_group, size_group, profit_group, stock_symbol_group];
   to_append.forEach(function(element) {
     main_div.appendChild(element);
@@ -164,54 +161,7 @@ function add_company() {
   get_cities();
   get_sectors();
   //button for submit
-
-  $('#c_form').submit(function(event) {
-    event.preventDefault();
-    //change to lower case
-    var form_data = $(this).serializeArray();
-    var n = form_data[0].value;
-    var s = form_data[1].value;
-    var p = form_data[2].value;
-    var st = form_data[3].value;
-    var cities = [];
-    var sectors = [];
-    form_data.forEach(function(element) {
-      if (element.name == 'cities') {
-        cities.push(element.value);
-      }
-      console.log(cities);
-      if (element.name == 'sectors') {
-        sectors.push(element.value);
-      }
-    });
-    //addcheck for input after testing
-    var to_db = {
-      type: "add_company",
-      name: n,
-      size: s,
-      profit: p,
-      stock: st,
-      cities: cities,
-      sectors: sectors
-    };
-    $.ajax({
-      url: '../server/post.php',
-      type: "POST",
-      async: true,
-      data: to_db
-    }).done(function(data) {
-      var parsed_data = JSON.parse(data);
-      $('#profile_display').empty();
-      var comment = document.createElement('div');
-      if (parsed_data["response"]["code"] == "400") {
-        comment.appendChild(document.createTextNode(parsed_data["response"]["comment"]));
-        $('#comment2').append(comment);
-      } else if (parsed_data["response"]["code"] == "200") {
-        comment.appendChild(document.createTextNode(parsed_data["response"]["comment"]));
-        $('#comment').append(comment);
-      }
-    });
-  });
+  controller.execute = controller.executeAddCompany;
 }
 ////////////////////////////////////////
 // function: get sectors
@@ -359,47 +309,7 @@ function add_job() {
   to_append.forEach(function(element) {
     main_div.appendChild(element);
   });
-
-
-  //append form to
-  //ajax request with new task form info
-  //if successful, prints message, asks
-  //user if they would like to start task
-  $('#aj_form').submit(function(event) {
-      event.preventDefault();
-      //change to lower case
-      var form_data = $(this).serializeArray();
-      var n = form_data[0].value;
-      var s = form_data[1].value;
-      var c = form_data[2].value;
-      var l = form_data[3].value;
-
-      var to_db = {
-        type: "add_job",
-        name: n,
-        salary: s,
-        company: c,
-        location: l
-      };
-      //ajax request
-      $.ajax({
-        url: '../server/post.php',
-        type: "POST",
-        async: true,
-        data: to_db
-      }).done(function(data) {
-          var parsed_data = JSON.parse(data);
-          $('#profile_display').empty();
-          var comment = document.createElement('div');
-          if (parsed_data["response"]["code"] == "400") {
-            comment.appendChild(document.createTextNode(parsed_data["response"]["comment"]));
-            $('#comment').append(comment);
-          } else if (parsed_data["response"]["code"] == "200") {
-            comment.appendChild(document.createTextNode(parsed_data["response"]["comment"]));
-            $('#comment').append(comment);
-          }
-      });
-  });
+  controller.execute = controller.executeAddJob;
 }
 ///////////////////////////////////////
 // params: form object, json object,

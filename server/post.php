@@ -18,7 +18,9 @@ if (isset($_POST['type']) && $_POST['type'] === 'add_job') {
 }
 
 if (isset($_POST['type']) && $_POST['type'] === 'add_company') {
-	add_company($_POST['name'], $_POST['size'], $_POST['profit'], $_POST['stock']);
+	$result = add_company($_POST['name'], $_POST['size'], $_POST['profit'], $_POST['stock']);
+	echo $result;
+
 	foreach($_POST['cities'] as $city) {
 		try {
 			echo insert_company_city($_POST['name'], $city);
@@ -34,19 +36,19 @@ if (isset($_POST['type']) && $_POST['type'] === 'add_company') {
 			echo 'Error, ', $e->getMessage();
 		}
 	}
-		foreach($_POST['cities'] as $city) {
-			foreach($_POST['sectors'] as $sector) {
-				try {
+	foreach($_POST['cities'] as $city) {
+		foreach($_POST['sectors'] as $sector) {
+			try {
 					echo insert_city_sector($city, $sector);
-				}catch(Exception $e) {
+			}catch(Exception $e) {
 					echo 'Error, ', $e->getMessage();
-				}
+			}
 		}
 	}
 }
 
 if (isset($_POST['type']) && $_POST['type'] === 'add_sector') {
-	add_sector($_POST['sector_name'], $_POST['sector_description']);
+	echo add_sector($_POST['sector_name'], $_POST['sector_description']);
 }
 
 ?>

@@ -109,8 +109,6 @@ function generate_table(table_content, text) {
 function company_city_form() {
   //clear main
   var form=document.getElementById("form_jcs");
-  form.firstChild.id='c_form';
-
   var main_div= document.getElementById('form_main');
   main_div.innerHTML='';
   var async_div=document.getElementById('form_async');
@@ -152,47 +150,7 @@ function company_city_form() {
   to_append.forEach(function(element) {
     main_div.appendChild(element);
   });
-
-  //ajax request with new task form info
-  //if successful, prints message, asks
-  //user if they would like to start task
-  $('#c_form').submit(function(event) {
-    event.preventDefault();
-    //change to lower case
-    var form_data = $(this).serializeArray();
-    var n = form_data[0].value;
-    var l = form_data[1].value;
-
-    var to_db = {
-      type: "company_city",
-      name: n,
-      location: l
-    };
-    //ajax request
-    $.ajax({
-      url: '../server/get.php',
-      type: "GET",
-      async: true,
-      data: to_db
-    }).done(function(data) {
-      var parsed_data = JSON.parse(data);
-      var comment = document.createElement('div');
-      $('#profile_display').empty();
-      if (parsed_data["response"]["code"] == "400") {
-        comment.appendChild(document.createTextNode(parsed_data["response"]["comment"]));
-        $('#comment').append(comment);
-      } else if(parsed_data["response"]["code"] == "200") {
-        comment.appendChild(document.createTextNode(parsed_data["response"]["comment"]));
-        $('#comment').append(comment);
-        var job_data = parsed_data["job_data"];
-        generate_table(parsed_data, "Company");
-        if (typeof(job_data[0]) != 'undefined') {
-          generate_table(job_data[0], "Employee Information");
-        }
-        generate_table(parsed_data);
-      }
-    });
-  });
+  controller.execute = controller.executeCompany;
 }
 /////////////////////////////////////////////////////
 //function: job & city
@@ -203,8 +161,6 @@ function company_city_form() {
 ////////////////////////////////////////////////////
 function job_city_form() {
   var form=document.getElementById("form_jcs");
-  form.firstChild.id='j_form';
-
   var main_div= document.getElementById('form_main');
   main_div.innerHTML='';
   var async_div=document.getElementById('form_async');
@@ -247,48 +203,7 @@ function job_city_form() {
   to_append.forEach(function(element) {
     main_div.appendChild(element);
   });
-
-  //ajax request with new task form info
-  //if successful, prints message, asks
-  //user if they would like to start task
-  $('#j_form').submit(function(event) {
-    event.preventDefault();
-    //change to lower case
-    var form_data = $(this).serializeArray();
-    var n = form_data[0].value;
-    var l = form_data[1].value;
-
-    var to_db = {
-      type: "job_city",
-      name: n,
-      location: l
-    };
-    //ajax request
-    $.ajax({
-      url: '../server/get.php',
-      type: "GET",
-      async: true,
-      data: to_db
-    }).done(function(data) {
-      var parsed_data = JSON.parse(data);
-      $('#profile_display').empty();
-      var comment = document.createElement('div');
-      if (parsed_data["response"]["code"] == "400") {
-        comment.appendChild(document.createTextNode(parsed_data["response"]["comment"]));
-        $('#comment').append(comment);
-        error_div.appendChild(error);
-        main.appendChild(error_div);
-      } else if (parsed_data["response"]["code"] == "200") {
-        comment.appendChild(document.createTextNode(parsed_data["response"]["comment"]));
-        $('#comment').append(comment);
-        var job_data = parsed_data["job_data"];
-        generate_table(parsed_data, "Company");
-        if (typeof(job_data[0]) != 'undefined') {
-          generate_table(job_data[0], "Employee Information");
-        }
-      }
-    });
-  });
+  controller.execute = controller.executeJob;
 }
 /////////////////////////////////////////////////////
 //
@@ -340,47 +255,7 @@ function sector_city_form() {
     main_div.appendChild(element);
   });
 
-  //ajax request with new task form info
-  //if successful, prints message, asks
-  //user if they would like to start task
-  $('#s_form').submit(function(event) {
-    event.preventDefault();
-    //change to lower case
-    var form_data = $(this).serializeArray();
-    var n = form_data[0].value;
-    var l = form_data[1].value;
-
-    var to_db = {
-      type: "sector_city",
-      name: n,
-      location: l
-    };
-    //ajax request
-    $.ajax({
-      url: '../server/get.php',
-      type: "GET",
-      async: true,
-      data: to_db
-    }).done(function(data) {
-        main_div.innerHTML='';
-      $('#profile_display').empty();
-      if (data == "400") {
-        var main = document.getElementById("profile_display");
-        var error_div = document.createElement('div');
-        error_div.className = "error";
-        var error = document.createTextNode("No results match sector or location, please try again.");
-        error_div.appendChild(error);
-        main.appendChild(error_div);
-      } else {
-        var parsed_data = JSON.parse(data);
-        var job_data = parsed_data["job_data"];
-        generate_table(parsed_data, "Sector");
-        if (typeof(job_data[0]) != 'undefined') {
-          generate_table(job_data[0], "Employee Information");
-        }
-      }
-    });
-  });
+  controller.execute = controller.executeSector;
 }
 ///////////////////////////////////////
 //
